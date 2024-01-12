@@ -5,37 +5,41 @@ const loaderText = document.querySelector('.loader');
 const errorText = document.querySelector('.error');
 const catInfoEl = document.querySelector('.cat-info');
 
+populateBreeds()
+
 selectEl.addEventListener('change', onSelect);
+
+function populateBreeds() {
+    fetchBreeds()
+        .then(breeds => {
+            breeds.forEach(breed => {
+                const option = document.createElement('option');
+                option.value = breed.id;
+                option.textContent = breed.name;
+                selectEl.appendChild(option);
+            });
+        })
+        .catch(error => {
+            errorText.textContent = 'Oops! Something went wrong! Try reloading the page!';
+            console.error('Oops! Something went wrong! Try reloading the page!', error);
+        });
+}
 
 function onSelect(e) {
     catInfoEl.innerHTML = '';
-    const breedParse = fetchCatByBreed(e.target.value);
 
-    breedParse.then(breed => {
-        articleMarkup(breed[0]);
-    }).catch(error => {
-        return errorText.textContent
-    })
+    fetchCatByBreed(e.target.value)
+        .then(breed => {
+            articleMarkup(breed[0]);
+        })
+        .catch(error => {
+            errorText.textContent = 'Oops! Something went wrong! Try reloading the page!';
+            console.error('Oops! Something went wrong! Try reloading the page!', error);
+        });
 }
 
-function selectMarkup(breeds) {
-    const selectMarkup = breeds.map(breed => {
-        return '<option value="${breed.id}">${breed.name}</option>';
-    }).join();
+function articleMarkup() {
+    const article = document.createElement('article');
 
-    selectEl.innerHTML = selectMarkup;
+    catInfoEl.appendChild(article);
 }
-
-function articleMarkup(breed) {
-    const articleMarkup = '<h1>breed.name</h1><p>breed.description</p><p><strong>temperament: </strong>breed.temperament</p><img src = breed.url>'
-       
-    selectEl.innerHTML = articleMarkup;
-}
-
-const breedsParser = fetchBreeds();
-
-breedsParser.then(breeds => {
-    selectMarkup(breeds);
-}).catch(error => {
-    return errorText.textContent
-});
