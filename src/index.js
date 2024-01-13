@@ -30,7 +30,7 @@ function onSelect(e) {
 
     fetchCatByBreed(e.target.value)
         .then(breed => {
-            articleMarkup(breed[0]);
+            articleMarkup(breed);
         })
         .catch(error => {
             errorText.textContent = 'Oops! Something went wrong! Try reloading the page!';
@@ -38,8 +38,16 @@ function onSelect(e) {
         });
 }
 
-function articleMarkup() {
-    const article = document.createElement('article');
+function articleMarkup(breed) {
+  const { url, breeds } = breed;
+  const { name, description, temperament } = breeds[0];
+    
+  const markupSelect = `
+    <h1>${name}</h1>
+    <p>${description}</p>
+    <p><span>Temperament: </span>${temperament}</p>
+    <img src="${url}" alt="${name}">`;
 
-    catInfoEl.appendChild(article);
+  catInfoEl.innerHTML = markupSelect;
 }
+

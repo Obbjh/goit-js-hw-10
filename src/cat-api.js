@@ -23,11 +23,4 @@ export function fetchCatByBreed(breedId) {
     });
 }
 
-
-fetchBreeds()
-  .then(breeds => {
-    console.log( breeds);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+ 
