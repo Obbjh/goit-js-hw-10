@@ -1,6 +1,6 @@
 img {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 250px;
+    margin-right: 10px;
 }
 
 .loader {
@@ -11,8 +11,4 @@ img {
     display: none;
 }
 
-.cat-info {
-    min-height: 400px;
-        border: 1px solid #ccc;
-        padding: 10px;
-}
+
