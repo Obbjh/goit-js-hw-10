@@ -11,14 +11,18 @@ populateBreeds()
 selectEl.addEventListener('change', onSelect);
 
 function populateBreeds() {
+  selectEl.style.visibility = 'hidden';
   Notiflix.Loading.standard('Loading data, please wait...');
+
     fetchBreeds()
         .then(breeds => {
             breeds.forEach(breed => {
-                const option = document.createElement('option');
+              const option = document.createElement('option');
                 option.value = breed.id;
                 option.textContent = breed.name;
               selectEl.appendChild(option);
+
+              selectEl.style.visibility = 'visible';
               Notiflix.Loading.remove();
             });
         })
@@ -31,12 +35,15 @@ function populateBreeds() {
 }
 
 function onSelect(e) {
+    selectEl.style.visibility = 'hidden';
     Notiflix.Loading.standard('Loading data, please wait...');
+  
     catInfoEl.innerHTML = '';
 
     fetchCatByBreed(e.target.value)
         .then(breed => {
-            articleMarkup(breed[0]);
+          articleMarkup(breed[0]);
+            selectEl.style.visibility = 'visible';
             Notiflix.Loading.remove();
         })
         .catch(error => {
